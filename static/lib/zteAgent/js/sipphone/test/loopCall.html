@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+
+function init()
+{
+        createInput("oid", "oid", "1008")
+        createInput("pwd", "pwd", "1")
+        createInput("vcid", "vcid", "1")
+        createInput("cfgUrl", "cfgUrl", "http://10.130.53.84:8080/was")
+        //createInput("cfgUrl", "cfgUrl", "http://10.130.72.111:7070/cloudwas")
+        createBtn("签入", function()
+        {
+            var WebAgent = top.window.WebAgent;
+            WebAgent.signin(
+            {
+                oid : getVal("oid"),
+                pwd : new MD5().hex_md5(getVal("pwd")).toUpperCase(),
+                vcid : getVal("vcid"),
+                type : "10",
+				heartRate : 20,
+                cfgUrl : getVal("cfgUrl"),
+                lang : "zh_cn", // lang: "en",
+                onSucc : function()
+                {
+                    info("签入成功！版本号=" + WebAgent.getVersion());
+                    onSucc();
+                },
+                onError : function(errCode, errMsg)
+                {
+                    error("登录失败,原因【" + errMsg + "】");
+                }
+            });
+        })
+    }
+
+    function noop()
+    {
+    }
+	
+	// 数组相减arr1 - arr2 
+    function arrSub(arr1,arr2)
+    {
+    	var item1,item2;
+    	while(arr2.length>0)
+    	{
+    		item1 = arr2.pop(); 
+    		for(var k=0; k<arr1.length; k++)
+    		{
+				item2 = arr1[k]
+    			if(item2 === item1)
+    			{
+    				arr1.splice(k,1);
+    			}
+    		}
+    	}
+    	return arr1;
+    }
+
+    function onSucc()
+    {
+		print("<div>当前状态：<span id='curState'> null </span></div>")
+		print("================= Get方法 ===================<br>")
+		// 获取座席信息
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var oid = window.prompt("需要查询的座席id:");
+            if (!oid) return;
+            WebAgent.invoker("GetAgentInfo",[oid],function(agtInfo)
+			{
+				info(agtInfo);
+			})
+
+        }, "获取指定座席")
+		
+		// 数组减测试
+        createTestBtn(null, function()
+        {
+			alert(arrSub([1,2,3,4,5],[2,3,4]))
+        }, "arrsub")
+		
+		// 打开日志
+        createTestBtn(null, function()
+        {
+			WebAgent.showLoggerConsole();
+        }, "打开日志窗口")
+		
+		// 外呼
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var phoneNo = window.prompt("外呼\r\n外呼号码:");
+            if (!phoneNo) return;
+            WebAgent.CallUser(phoneNo);
+
+        }, "外呼")
+		
+		
+		
+        //示忙/示闲
+        createSwitchBtn(Cmd.SHOW_BUSY, function()
+        {
+            WebAgent.setBusy();
+
+        }, function()
+        {
+            WebAgent.idle();
+        },"示忙","示闲")
+
+        //保持/取消保持
+        createSwitchBtn(Cmd.HOLD, function()
+        {
+            WebAgent.HoldCall();
+
+        }, function()
+        {
+            WebAgent.ReHoldCall();
+        }, "保持", "取消保持")
+        
+        //静音/取消静音
+        createSwitchBtn(Cmd.MUTE, function()
+        {
+            WebAgent.setMute(true);
+
+        }, function()
+        {
+            WebAgent.setMute(false);
+        }, "静音", "取消静音")
+        
+        
+        //整理/取消整理
+        createSwitchBtn(Cmd.MANUAL_ADJUST, function()
+        {
+            WebAgent.invoker("AgentEnterWrapUp",[]);
+
+        }, function()
+        {
+            WebAgent.idle();
+        }, "整理", "取消整理")
+        
+
+        //挂机
+        createTestBtn(Cmd.HANG_UP, function()
+        {
+            WebAgent.HangUP();
+
+        }, "挂机")
+        
+        //注销
+        createTestBtn(Cmd.LOGOUT, function()
+        {
+            WebAgent.logout();
+        }, "注销")
+		
+	
+        createTestBtn(null, function()
+        {
+            creatLoopCallBtn();
+        }, "循环外呼")
+
+        // 显示状态变化
+        WebAgent.regEvent("OnStateChanged", function(state)
+        {
+			document.getElementById("curState").innerHTML=state.name;
+            //info("状态变化：" + state.name)
+        })
+
+        // Com2.MsgHandle消息处理
+        WebAgent.MsgHandle(function(msgType, data)
+        {
+            //info("COM2 <<< MsgHandle("+[msgType, data]+")");
+        });
+        
+        // Com2.MsgInvoker消息处理
+        WebAgent.MsgInvoker(function(msgType, data)
+        {
+            //info("COM2 <<< MsgInvoker("+[msgType, data]+")");
+        });
+    }
+	
+	// 循环呼叫
+	function loopCall(callCount,dns,onSuccFun,onErrFun,onComplete,curIndex)
+	{
+	    if(curIndex>count) return;
+		var dn = dns[curIndex%dns.length];
+	}
+	
+	// 循环呼叫
+	LoopCall = 
+	{
+	    callCount : 2000,
+		dns : [],
+		onSuccFun : null,
+		onErrFun : null,
+		onComplete : null,
+		onCallFun : null,
+		curIndex :0,
+		succTime :0,
+		errTime : 0,
+		waitTime : 4,
+		eh : null,
+		
+		// op = callCount,dns,onCallFun,onSuccFun,onErrFun,onComplete
+		start : function(op)
+		{
+			this.callCount = op.callCount;
+			this.dns = op.dns;
+			this.onSuccFun = op.onSuccFun;
+			this.onErrFun = op.onErrFun;
+                        this.onComplete = op.onComplete;
+			this.onCallFun = op.onCallFun;
+                        this.waitTime = op.waitTime;
+			this.curIndex = 0;
+			this.succtime = 0;
+			this.errTime = 0;
+			if(this.eh) WebAgent.unRegEvent(this.eh);
+			
+			var thisobj = this;
+			// 事件监听
+			var eh = this.eh = new WebAgent.EventHelper();
+			eh.regEvents([ "OnCallInsideSuccTalk", "OnCallOutsideSuccTalk" ], function()
+            {
+				var dn = thisobj.dns[thisobj.curIndex%thisobj.dns.length];
+				thisobj.succtime++;
+                if(thisobj.onSuccFun) thisobj.onSuccFun(dn,thisobj.succtime);
+				setTimeout(WebAgent.HangUP,thisobj.waitTime*1000);
+            });
+			
+			eh.regEvent("OnReleaseSuccess", function()
+            {
+                setTimeout(WebAgent.bind(thisobj.call,thisobj),1000);
+            });
+			
+			eh.regEvents([ "OnCallOutsideFailure", "OnCallInsideFailure" ], function()
+            {
+				WebAgent.getLastError(function(errCode,errMsg)
+				{
+				    var dn = thisobj.dns[thisobj.curIndex%thisobj.dns.length];
+					thisobj.errTime++;
+					if(thisobj.onErrFun) thisobj.onErrFun(dn,thisobj.errTime,errMsg);
+				});
+            });
+			
+			this.call();
+		},
+		
+		stop : function()
+		{
+			WebAgent.unRegEvent(this.eh);
+		},
+		
+		call : function()
+		{
+			var thisobj = this;
+		    if((++this.curIndex)>this.callCount)
+			{
+				if(this.onComplete) this.onComplete();
+			}else
+			{
+				var dn = this.dns[this.curIndex%this.dns.length];
+				if(this.onCallFun) this.onCallFun(dn);
+				WebAgent.CallUser(dn,function(re)
+				{
+				    if(re!="0")
+					{
+					    setTimeout(WebAgent.bind(thisobj.call,thisobj),1000);
+					}
+				});
+			}
+			
+		}
+	};
+	
+	    // 创建循环呼叫相关按钮
+    function creatLoopCallBtn()
+    {
+        print("<br><br><br>");
+        createInput("外呼号码", "phoneNo", "99990081,99990109")
+        createInput("循环呼叫次数：", "callCount", "2000")
+        createInput("通话时间(s)", "callTime", "2")
+        print("<pre>"
+			   +"成功次数：<span id='succ'>0</span>"
+			   +"失败次数:<span id='error' style='color: red'>0</span>"
+              +"</pre>")
+        
+		createBtn("停止呼叫", function()
+        {
+			LoopCall.stop();
+        })
+		
+        createBtn("开始呼叫", function()
+        {
+			var pns = getVal("phoneNo").split(",");
+        	        var callCount = getVal("callCount")*1;
+                        var waitTime = getVal("callTime")*1;
+			LoopCall.start(
+			{
+				callCount : callCount,
+				dns : pns,
+                                waitTime : waitTime,
+				onCallFun : function(dn)
+				{
+				    info("～～开始呼叫："+dn+"～～")
+				},
+				onSuccFun : function(dn,succTime)
+				{
+					info("呼叫成功："+dn)
+				    $("#succ").html(succTime);
+				},
+				onErrFun :function(dn,errTime,errMsg)
+				{
+					error("呼叫失败："+dn+"  "+errMsg)
+				    $("#error").html(errTime);
+				},
+				onComplete : function()
+				{
+				    info("呼叫完成！")
+				}
+			});
+        })
+    }
+	
+</script>
+</head>
+<body onload="init()">
+基本话务功能测试!
+<hr />
+<div id="btnDiv"></div>
+<div id="state"></div>
+<div id="msg"
+	style="width: 90%; height: 300px; overflow: auto; border: 1px solid #CCCCCC">
+</div>
+<input type="button" onclick="clearMsg()" value="clear" />
+<pre>
+</pre>
+</body>
+</html>

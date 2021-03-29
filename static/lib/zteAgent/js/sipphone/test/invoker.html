@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>循环外呼</title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+    function createBtn(btnName, fn)
+    {
+        var btn = document.createElement("input");
+        btn.type = 'button';
+        btn.value = btnName;
+        btn.onclick = fn;
+        var btnDiv = document.getElementById("btnDiv");
+        btnDiv.appendChild(btn);
+    }
+
+    function createInput(btnName, id, defValue)
+    {
+        var span = document.createElement("span");
+        span.innerHTML = btnName;
+
+        var btn = document.createElement("input");
+        btn.type = 'text';
+        btn.value = defValue;
+        btn.id = id;
+        var btnDiv = document.getElementById("btnDiv");
+        btnDiv.appendChild(span);
+        btnDiv.appendChild(btn);
+    }
+
+    function print(msg)
+    {
+        var btnDiv = document.getElementById("btnDiv");
+        btnDiv.innerHTML += msg;
+    }
+
+    function getVal(id)
+    {
+        return document.getElementById(id).value;
+    }
+    
+
+    function init()
+    {
+        createInput("oid", "oid", "1002")
+        createInput("pwd", "pwd", "Abc123")
+        createInput("vcid", "vcid", "1")
+        createInput("cfgUrl", "cfgUrl", "http://xxx.xxx.xx:9080/was/")
+        WebAgent.init({});
+        createBtn("签入", function()
+        {
+            var WebAgent = top.window.WebAgent;
+            WebAgent.signin(
+            {
+                oid : getVal("oid"),
+                pwd : new MD5().hex_md5(getVal("pwd")).toUpperCase(),
+                vcid : getVal("vcid"),
+                type : "10",
+                cfgUrl : getVal("cfgUrl"),
+                lang : "zh_CN", // lang: "en",
+                onSucc : function()
+                {
+                    alert("签入成功！版本号=" + WebAgent.getVersion());
+                    creatLoopCallBtn();
+                },
+                onError : function(errCode, errMsg)
+                {
+                    alert("登录失败,原因【" + errMsg + "】");
+                }
+            });
+        })
+        
+        createInput("循环次数", "loop3", "3")
+        createBtn("循环调用", function()
+        {
+			var loop = getVal("loop3")*1;
+            var method=["GetFlowNo","GetCallingNo"];
+            var count = method.length*loop;
+            var index=0;
+            var list=[];
+            
+            var doInvoder = function(m,arg)
+            {
+				WebAgent.invoker(m,arg,function()	{
+					info("----------------"+m+", arg="+arg+", 排队数："+WebAgent.invokerList.length);
+				});
+            }
+            var i,m;
+            while(index<count)
+            {
+				i = index%method.length;
+                m = method[i]
+                index++
+                doInvoder(m,index)
+            }
+            
+            //info(list);
+            /*
+            var listInvoker = function(list)
+            {
+				if(list.length <1) return;
+				var m = list.shift();
+                WebAgent.invoker(m,"",function()
+                {
+                    info("<>>>>>>>>>>>>"+m);
+                    setTimeout(function(){listInvoker(list)},1);
+                })
+            }
+            listInvoker(list);
+            */
+        });
+    }
+
+	
+
+    // 创建循环呼叫相关按钮
+    function creatLoopCallBtn()
+    {
+        print("<br><br><br>");
+        createInput("外呼号码", "phoneNo", "88881500")
+        createInput("循环呼叫次数：", "callCount", "20")
+        createInput("通话时间(s)", "callTime", "5")
+
+        var setHandleFlag = false;
+        
+        var succTime =0;
+        var errTime =0;
+        
+        var pn = getVal("phoneNo");
+        var callCount = getVal("callCount")*1;
+        var callTime = getVal("callTime");
+        
+        var call = function()
+        {
+            callCount--;
+            if(callCount<0) {
+                info("循环呼叫结束，完成"+getVal("callCount")+"次呼叫！")
+                return;
+            };
+            WebAgent.CallUser(pn);
+            info("呼叫("+callCount+"): "+pn)
+            if (setHandleFlag) return;
+            WebAgent.MsgHandle(function(msgType, userDate)
+            {
+                setHandleFlag = true;
+                if (msgType == "5") //外呼通话成功
+                {
+                    info("外呼通话成功！("+callCount+")")
+                    succTime ++;
+                    document.getElementById("succ").innerHTML =succTime;
+                    
+                    setTimeout(function()
+                    {
+                        info("挂机("+callCount+")")
+                        WebAgent.HangUP(); //挂机
+
+                    }, callTime * 1000)
+                }
+                else if (msgType == "6" && userDate == "1") //挂机成功
+                {
+                    call();
+                }
+                else if (msgType == "7") //外呼失败
+                {
+                    info("外呼失败！("+callCount+")")
+                    errTime ++;
+                    document.getElementById("error").innerHTML =errTime;
+                }
+            });
+        }
+
+        createBtn("开始呼叫", function()
+        {
+            call();
+        })
+    }
+    
+    function info(msg)
+    {
+        var msgDiv = document.getElementById("msg");
+        msgDiv.innerHTML += "<br><font color=#0099FF>" + msg + "</font>";
+        msgDiv.scrollTop = msgDiv.scrollHeight;
+    }
+    
+    function error(msg)
+    {
+        var msg_ = document.getElementById("msg");
+        msg_.innerHTML += "<br><font color=#FFCC00>" + msg + "</font>";
+        msg_.scrollTop = msg_.scrollHeight;
+    }
+    
+    function clearMsg()
+    {
+		var msgDiv = document.getElementById("msg");
+        msgDiv.innerHTML = "";
+    }
+    
+</script>
+</head>
+<body onload="init()">
+<div id="btnDiv"></div>
+<pre>
+成功次数：<span id="succ">0</span>
+失败次数:<span id="error" style="color: red">0</span>
+</pre>
+<div id="msg"
+	style="width: 90%; height: 200px; overflow: auto; border: 1px solid #CCCCCC">
+</div>
+<input type="button" onclick="clearMsg()" value="clear" />
+
+</body>
+</html>

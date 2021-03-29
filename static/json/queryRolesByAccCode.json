@@ -1,0 +1,24 @@
+{
+        "roleList" : [
+            {
+                "roleCode": "R0",
+                "roleName": "CSR系统"
+            },
+            {
+                "roleCode": "R3",
+                "roleName": "CSR在线客服"
+            },
+            {
+                "roleCode": "R6",
+                "roleName": "视频坐席"
+            },
+            {
+                "roleCode": "R7",
+                "roleName": "CSR视频系统"
+            },
+            {
+                "roleCode": "R9",
+                "roleName": "视频座席(新角色)"
+            }
+        ]
+}

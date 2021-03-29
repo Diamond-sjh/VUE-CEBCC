@@ -1,0 +1,279 @@
+.csr-app{
+
+}
+.csr-app .mt-10{margin-top:-10px;}
+.csr-app .mr-10{margin-right:-10px;}
+.csr-app .mb-10{margin-bottom:-10px;}
+.csr-app .ml-10{margin-left:-10px;}
+
+.csr-app .m5{margin:5px;}
+.csr-app .mt5{margin-top:5px;}
+.csr-app .mr5{margin-right:5px;}
+.csr-app .mb5{margin-bottom:5px;}
+.csr-app .ml5{margin-left:5px;}
+.csr-app .m10{margin:10px;}
+.csr-app .mt10{margin-top:10px;}
+.csr-app .mr10{margin-right:10px;}
+.csr-app .mb10{margin-bottom:10px;}
+.csr-app .ml10{margin-left:10px;}
+.csr-app .m20{margin:20px;}
+.csr-app .mt20{margin-top:20px;}
+.csr-app .mr20{margin-right:20px;}
+.csr-app .mb20{margin-bottom:20px;}
+.csr-app .ml20{margin-left:20px;}
+
+.csr-app .p5{padding:5px;}
+.csr-app .pl5{padding-left:5px;}
+.csr-app .pt5{padding-top:5px;}
+.csr-app .pr5{padding-right:5px;}
+.csr-app .pb5{padding-bottom:5px;}
+.csr-app .p10{padding:10px;}
+.csr-app .pl10{padding-left:10px;}
+.csr-app .pt10{padding-top:10px;}
+.csr-app .pr10{padding-right:10px;}
+.csr-app .pb10{padding-bottom:10px;}
+.csr-app .p20{padding:20px;}
+.csr-app .pt20{padding-top:20px;}
+.csr-app .pr20{padding-right:20px;}  
+.csr-app .pb20{padding-bottom:20px;}
+.csr-app .pl20{padding-left:20px;}
+
+.csr-app .fz11{ font-size:11px; line-height:11px;  -webkit-text-size-adjust: none;}
+.csr-app .fz12{ font-size:12px; line-height:12px;}
+.csr-app .fz13{ font-size:13px; }
+.csr-app .fz14{ font-size:14px; }
+.csr-app .fz15{ font-size:15px; }
+.csr-app .fz16{ font-size:16px; }
+.csr-app .fz18{ font-size:18px; }
+.csr-app .bold{ font-weight: bold; }
+.csr-app .normal{ font-weight: normal; }
+
+
+.csr-app span.btn{
+  cursor: pointer;
+}
+.csr-app .widthper25{width:25%}
+
+.csr-app .text-left{
+  text-align: left;
+}
+.csr-app .text-center{
+  text-align: center;
+}
+.csr-app .text-right{
+  text-align: right;
+}
+/* 12px的日期显示文字宽度 2019-10-10 10:10:10 */
+.csr-app .date-time-width-f12{
+  width:140px;
+}
+/* 12px的日期显示文字宽度 2019-10-10*/
+.csr-app .date-width-f12{
+  width:90px;
+}
+.csr-app table.table-public{
+    width:100%;
+    /* text-align:center;     */
+    color:#666;
+    border-collapse: collapse;
+  }
+.csr-app table.table-public.table-public-left{
+    text-align:left;
+  }
+.csr-app table.table-public caption{
+    font-size:15px;
+    font-weight:800;
+    line-height: 100%;
+    padding:0;
+    /* margin:20px 0 10px 0; */
+    text-align: left;
+  }
+.csr-app table.table-public.mini th,.csr-app table.table-public.mini td{
+  padding: 2px 2px;
+  /* min-height: 15px; */
+}
+.csr-app table.table-public th, .table.table-public td {
+    padding: 6px 10px;
+    min-height: 20px;
+  }
+.csr-app table.table-public.table-public-left th,.csr-app table.table-public.table-public-left td{
+    border:1px solid #ddd;
+    text-align:left;
+    min-height: 20px;
+  }
+.csr-app table.table-public th{
+    font-weight:bold;
+    background:#e8f7f0;
+    color:#212529;
+    font-size:14px;
+  }
+.csr-app table.table-public td{
+    padding: 10px 10px;
+    border-bottom:1px solid #ddd;
+  }
+.csr-app table.table-public-border th,.csr-app table.table-public-border td{
+    border:1px solid #ddd;
+  }
+  .csr-app table.table-public td.bold{
+    font-weight:bold;
+   }
+   .csr-app table.table-public .min-width{
+       min-width:90px;
+   }
+   .csr-app table.table-public .min-width1{
+       min-width:110px;
+   }
+   .csr-app table.table-public .min-width2{
+       min-width:130px;
+   }
+   .csr-app table.table-public .min-width3{
+       min-width:150px;
+   }
+   .csr-app table.table-public .width-mini{
+     width:30px;
+   }
+   .csr-app table.table-public .width{
+     width:40px;
+   }
+   .csr-app table.table-public .width1{
+     width:50px;
+   }
+  .csr-app table.table-public .width2{
+    width:70px;
+  }
+  .csr-app table.table-public .width3{
+    width:90px;
+  }
+  .csr-app table.table-public .width4{
+    width:110px;
+  }
+  .csr-app table.table-public .width5{
+    width:130px;
+  }  
+  .csr-app table.table-public .text-l{
+    text-align:left;
+  }
+  .csr-app table.table-public .text-r{
+    text-align:right;
+  }
+
+  .csr-app .text-ellipsis{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .csr-app .text-ellipsis:hover{
+    text-overflow: inherit;
+    white-space:pre-wrap;
+  }
+
+  /**1280**/
+  .width1280 table.table-public-left th{    
+    font-size:13px;
+    text-align: center;
+    padding:5px 3px;
+  }
+  .width1280 table.table-public-left td input{
+    padding:8px 5px;
+  }
+  .width1280 table.table-public-left th.width4{    
+    width:70px;
+  }
+  .width1280 table.table-public-left th .btn.btn-primary{
+    padding:5px 3px;
+    font-size:13px;
+    text-align:center;
+  }
+  .width1280 .bootstrap-select > .dropdown-toggle:after{
+    right:0.8rem;
+  }
+  .width1280 table.table-public-left td.min-width3{
+    min-width:128px;
+}
+
+  /**1440**/
+  .width1440 table.table-public-left th{    
+    font-size:13px;
+    text-align: center;
+    padding:5px 3px;
+  }
+  .width1440 table.table-public-left td input{
+    padding:8px 5px;
+  }
+  .width1440 table.table-public-left th.width4{    
+    width:70px;
+  }
+  .width1440 table.table-public-left th .btn.btn-primary{
+    padding:5px 3px;
+    font-size:13px;
+    text-align:center;
+  }
+  .width1440 .bootstrap-select > .dropdown-toggle:after{
+    right:0.8rem;
+  }
+  .width1440 table.table-public-left td.min-width3{
+    min-width:128px;
+}
+
+
+
+.csr-form-item-row{
+    display: flex;
+    flex-flow: row wrap;
+}
+.csr-form-one-coloum{
+    width: 100%;
+}
+.csr-form-two-coloum{
+    width: 50%;
+}
+.csr-form-three-coloum{
+    width: 33.3%;
+}
+/*input之间的间距问题*/
+.csr-form-item.csr-form-pd{
+    padding: 0px 15px;
+}
+/*input的宽度 分为xs ，sm，md,lg,xl ,不同类型的输入框长度*/ 
+.csr-form-item-md{
+    /* width:280px; */
+    min-width: 280px;
+}
+.csr-form-item-xs{
+    min-width:180px;
+}
+.csr-form-item-sm{
+    min-width:230px;
+}
+.csr-form-item-lg{
+    min-width:330px;
+}
+.csr-form-item-xl{
+    width:380px;
+}
+.csr-form-item.csr-form-plain-input input{
+    border:none;
+}
+
+
+.csr-pagination-container{
+  display: flex;
+  flex-flow: column nowrap;
+}
+.csr-pagination-container .csr-pagination{
+  display:flex;
+  padding-top:20px;
+  align-items: center;
+} 
+.csr-pagination-container .csr-pagination.left{
+  justify-content: flex-start;
+}
+.csr-pagination-container .csr-pagination.center{
+  justify-content: center;
+}
+.csr-pagination-container .csr-pagination.right{
+  justify-content:flex-end;
+}
+
+
+

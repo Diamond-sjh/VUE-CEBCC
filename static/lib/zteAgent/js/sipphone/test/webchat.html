@@ -1,0 +1,417 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+
+	var SoftDAEnabled = 1; // 指定是否开启SoftDA（Webcall）功能。非零值表示开启，0表示不开启。需要在执行Initial方法之前设置。
+	var IMAccount = ""; // IM账号。参数类型为：String
+	var IMPassword = "1"; // IM密码。参数类型为：String
+	var IMServerAddr = "10.130.54.107"; // 登录的IM服务器IP地址。参数类型为：String
+	var bgwAddr = ""; // bgw的IP地址。参数类型为：String
+	var IMVersion = "4.01.20110311.06"; // IM控件版本号。参数类型为：String
+	var IMLocalPort = "5065"; // 本地端口号。参数类型：整数，0~65535。默认值5063。
+	var IMServerPort = "5065"; // 服务器端端口号。参数类型：整数，0~65535。默认值5063。
+    var softDALogonType ="3"; //
+	var wasURL="http://10.130.62.52:8080/was"; 
+	//var wasURL="http://10.130.55.144:8080/was";
+	//var wasURL="http://10.130.72.111:7070/cloudwas";
+    function init()
+    {
+        createInput("工号", "oid", "101")
+        createInput("密码", "pwd", "1")
+        createInput("vcid", "vcid", "1")
+        createInput("cfgUrl", "cfgUrl", wasURL)
+        print("-- webChat --<br>")
+        createInput("IMServerAddr", "IMServerAddr", IMServerAddr)
+        createInput("IMVersion", "IMVersion", IMVersion)
+        print("<br>")
+        createInput("IMLocalPort", "IMLocalPort", IMLocalPort)
+        createInput("IMServerPort", "IMServerPort", IMServerPort)
+        print("<br>")
+        createInput("IMPassword", "IMPassword", IMPassword)
+        createInput("bgwAddr", "bgwAddr", bgwAddr)
+		createInput("softDALogonType", "softDALogonType", softDALogonType)
+        print("<br>")
+        
+        createBtn("获取错误", function()
+        {
+            WebAgent.getLastError(function(errCode,errMsg)
+            {
+                WebAgent.invoker("GetPromptByErrorCode",[errCode],function(msg)
+                { 
+                   WebAgent.error(msg);
+                   info([errCode,msg]);
+                });
+            });
+        });
+        
+        createBtn("签入", function()
+        {
+            var WebAgent = top.window.WebAgent;
+            WebAgent.signin(
+            {
+                oid : getVal("oid"),
+                pwd : new MD5().hex_md5(getVal("pwd")).toUpperCase(),
+                vcid : getVal("vcid"),
+                type : "01",
+                cfgUrl : getVal("cfgUrl"),
+                lang : "zh_CN", // lang: "en",
+                webChat :
+                {
+                   IMServerAddr : getVal("IMServerAddr"),
+                   IMVersion : getVal("IMVersion"),
+                   IMLocalPort : getVal("IMLocalPort"),
+                   IMServerPort : getVal("IMServerPort"),
+                   IMPassword : getVal("IMPassword"),
+                   bgwAddr : getVal("bgwAddr"),
+				   softDALogonType : getVal("softDALogonType")
+                },
+                onSucc : function()
+                {
+                    info("签入成功！版本号=" + WebAgent.getVersion());
+                    onSucc();
+                },
+                onError : function(errCode, errMsg)
+                {
+                    error("登录失败,原因【" + errMsg + "】");
+                }
+            });
+        })
+    }
+
+    function noop()
+    {
+    }
+
+    function onSucc()
+    {
+        WebAgent.info__ = WebAgent.info;
+        WebAgent.error__ = WebAgent.error;
+        WebAgent.debug__ = WebAgent.debug;
+        WebAgent.trace__ = WebAgent.trace;
+
+        //WebAgent.info = info;
+        //WebAgent.error = error;
+        //WebAgent.debug = debug;
+       //WebAgent.trace = info;
+        print("<br><div>当前状态：<span id='curState'> null </span></div>")
+        print("================= Get方法 ===================<br>")
+
+        createTestBtn(null, function()
+        {
+            info("呼叫流水号：" + WebAgent.GetFlowNO());
+
+        }, "GetFlowNO")
+		
+        createTestBtn(null, function()
+        {
+            alert("是否会议主持人: " + WebAgent.isConfMaster());
+        }, "是否会议主持人")
+
+        createTestBtn(null, function()
+        {
+            info("座席当前状态:" + WebAgent.GetAgentStatus());
+
+        }, "GetAgentStatus")
+
+        createTestBtn(null, function()
+        {
+            info("GetCallingNO:" + WebAgent.GetCallingNO());
+
+        }, "GetCallingNO")
+
+        createTestBtn(null, function()
+        {
+            info("GetUserData:" + WebAgent.GetUserData());
+
+        }, "GetUserData")
+
+        createTestBtn(null, function()
+        {
+            info("座席电话:" + WebAgent.getAgtPhoneNo());
+
+        }, "getAgtPhoneNo")
+
+        createTestBtn(null, function()
+        {
+            WebAgent.getAgentPhone(function(no)
+            {
+                info("座席电话号码：" + no);
+            })
+        }, "getAgtPhone(异步)");
+
+        createTestBtn(null, function()
+        {
+            WebAgent.invoker("QueryCallData", [], function(callData)
+            {
+                info(callData);
+            });
+        }, "获取随路数据");
+
+        createTestBtn(null, function()
+        {
+            WebAgent.getLastError(function(errCode, cause)
+            {
+                info("错误码，错误原因" + [ errCode, cause ]);
+            });
+        }, "获取最近一次错误原因");
+
+        createTestBtn(null, function()
+        {
+            WebAgent.isCalling(function(isCall)
+            {
+                alert(isCall?"通话中。。。":"未通话")
+            });
+        }, "是否通话中");
+
+        print("<br><br>================= 话务相关 ===================<br>")
+
+        //服务
+        createTestBtn(Cmd.SERVICE, function()
+        {
+            WebAgent.idle();
+        }, "服务");
+
+        // 外呼
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var phoneNo = window.prompt("外呼\r\n外呼号码:");
+            if (!phoneNo) return;
+            WebAgent.CallUser(phoneNo);
+
+        }, "外呼");
+
+        // 内呼
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var gid = window.prompt("获取班组在线座席，请输入班组id： ");
+            if (!gid) return;
+            WebAgent.invoker("GetAllAgentStatus", [ gid ], function(agts)
+            {
+                var agt = "";
+                var arr = agts.split("~");
+                for ( var i = 0; i < arr.length; i++)
+                {
+                    if (arr[i].length < 1) continue;
+                    agt += "," + arr[i].split("|")[1];
+                }
+
+                var oid = window.prompt("在线座席：" + agt + "\r\n对方工号:");
+                if (!oid) return;
+                WebAgent.invoker("CallInside", [ oid, 0 ]);
+            })
+
+        }, "内呼");
+
+        //示忙/示闲
+        createSwitchBtn(Cmd.SHOW_BUSY, function()
+        {
+            WebAgent.setBusy();
+
+        }, function()
+        {
+            WebAgent.idle();
+        }, "示忙", "示闲")
+
+        //保持/取消保持
+        createSwitchBtn(Cmd.HOLD, function()
+        {
+            WebAgent.HoldCall();
+
+        }, function()
+        {
+            WebAgent.ReHoldCall();
+        }, "保持", "取消保持")
+
+        //三方通话
+        createTestBtn(Cmd.CONF, function()
+        {
+
+            WebAgent.conf();
+
+        }, "三方通话")
+
+        //转移
+        createTestBtn(Cmd.TRANSFER, function()
+        {
+
+            WebAgent.invoker("Transfer", []);
+
+        }, "转接")
+
+        //单步转移
+        createTestBtn(Cmd.SSTRANSFER, function()
+        {
+            var gid = window.prompt("获取班组在线座席，请输入班组id： ");
+            if (!gid) return;
+            WebAgent.invoker("GetAllAgentStatus", [ gid ], function(agts)
+            {
+                var agt = "";
+                var arr = agts.split("~");
+                for ( var i = 0; i < arr.length; i++)
+                {
+                    if (arr[i].length < 1) continue;
+                    agt += "," + arr[i].split("|")[1] + "=" + arr[i].split("|")[2];
+                }
+
+                ssTransData = "AGTMSG=TRANS_SINGLE^" + WebAgent.getOid() + "^" + "张三" + "^" + "AAAA";
+
+                var transNum = window.prompt("输入对方电话号码：" + agt + "\r\n对方工号，电话号码:");
+                if (!transNum) return;
+                var callNumEx = transNum + ";" + ssTransData;
+                WebAgent.invoker("SingleStepTransfer", [ 0, callNumEx, 1, WebAgent.getAgtPhoneNo() ]);
+            })
+
+        }, "单步转")
+
+        //静音/取消静音
+        createSwitchBtn(Cmd.MUTE, function()
+        {
+            WebAgent.setMute(true);
+
+        }, function()
+        {
+            WebAgent.setMute(false);
+        }, "静音", "取消静音")
+
+        //整理/取消整理
+        createSwitchBtn(Cmd.MANUAL_ADJUST, function()
+        {
+            WebAgent.invoker("AgentEnterWrapUp", []);
+
+        }, function()
+        {
+            WebAgent.idle();
+        }, "整理", "取消整理")
+
+        //挂机
+        createTestBtn(Cmd.HANG_UP, function()
+        {
+            WebAgent.HangUP();
+
+        }, "挂机")
+
+        //注销
+        createTestBtn(Cmd.LOGOUT, function()
+        {
+            WebAgent.logout();
+        }, "注销")
+
+        print("<br><br>================= com2相关方法测试 ===================<br>")
+        // 扩展外呼
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var pn = window.prompt("扩展外呼\r\n被叫:");
+            if (!pn) return;
+            var caller = window.prompt("主叫:");
+            WebAgent.ExCallUser(pn, caller);
+
+        }, "ExCallUser")
+
+        //挂机
+        createTestBtn(Cmd.HANG_UP, function()
+        {
+            WebAgent.HangUP();
+
+        }, "HangUP")
+		
+        //聊天上线
+        createTestBtn(Cmd.WEB_CHAT_ON, function()
+        {
+            WebAgent.invoker("SetChatStatus", "status=0");
+
+        }, "聊天上线")
+		
+        //聊天离线
+        createTestBtn(Cmd.WEB_CHAT_OFF, function()
+        {
+            WebAgent.invoker("SetChatStatus", "status=1");
+
+        }, "聊天离线")
+
+        // 挂指定号码
+        createTestBtn(Cmd.HANG_UP, function()
+        {
+            var pn = window.prompt("挂指定号码\r\n需挂断的号码:");
+            if (!pn) return;
+            var isAll = window.prompt("是否挂机掉全部电话, 1表示挂全部, 0只挂指定号码：");
+            WebAgent.HangUpEx(pn, isAll);
+
+        }, "HangUpEx")
+
+        // 挂机到自动业务
+        createTestBtn(Cmd.HANG_UP, function()
+        {
+            var callData = window.prompt("挂机到自动业务\r\n挂机时传递给自动业务的消息内容:");
+            if (!callData) return;
+            WebAgent.ClearCallToAutoServiceEx(callData);
+
+        }, "ClearCallToAutoServiceEx")
+
+        // 咨询到自动业务
+        createTestBtn(Cmd.CONS, function()
+        {
+            var accessCode = window.prompt("咨询到自动业务\r\n业务接入码:");
+            if (!accessCode) return;
+            var data = window.prompt("发送到业务的数据:");
+            WebAgent.Consult2Auto(0, accessCode, data);
+        }, "Consult2Auto")
+
+        // 显示状态变化
+        WebAgent.regEvent("OnStateChanged", function(state)
+        {
+            document.getElementById("curState").innerHTML = state.name;
+            info("状态变化：" + state.name)
+        })
+
+        //WebAgent.regEvent("OnAinfEvent",function(e){alert(e.name)})
+
+        // Com2.MsgHandle消息处理
+        WebAgent.MsgHandle(function(msgType, data)
+        {
+            info("COM2 <<< MsgHandle(" + [ msgType, data ] + ")");
+            if (msgType == "80")
+            {
+                //if (window.confirm("有电话呼入[" + WebAgent.GetCallingNO() + "]，是否接听？"))
+                //{
+                    WebAgent.invoker("Answer", [ "0" ]);
+                //}
+                //else
+                //{
+                    WebAgent.HangUP();
+                //}
+            }
+        });
+
+        // Com2.MsgInvoker消息处理
+        WebAgent.MsgInvoker(function(msgType, data)
+        {
+            if (msgType == "86")
+            {
+                alert(WebAgent.GetCallingNO())
+            }
+            info("COM2 <<< MsgInvoker(" + [ msgType, "[" + data + "]" ] + ")");
+        });
+    }
+	
+
+</script>
+</head>
+<body onload="init()">
+基本话务功能测试!
+<hr />
+<div id="btnDiv"></div>
+
+<div id="msg"
+	style="width: 90%; height: 300px; overflow: auto; border: 1px solid #CCCCCC">
+</div>
+<input type="button" onclick="clearMsg()" value="clear" />
+<pre>
+</pre>
+</body>
+</html>

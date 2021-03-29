@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+    MyObj = {};
+    MyObj.invoker = function()
+    {
+        document.getElementById("msg").innerHTML = new Date().getTime();
+    }
+    var url1 = "http://10.130.81.95:8080/gxuv/webseat/js/core/test/findobj.html";
+    var url2 = "http://127.0.0.1:8082/core/test/findobj.html";
+    function init()
+    {
+        createBtn("创建同域Iframe", function()
+        {
+            createIfrm(window.location+"?"+Math.random());
+        });
+
+        createBtn("创建跨域Iframe", function()
+        {
+            var url = window.location+"";
+            var pos = (url.indexOf("?")==-1)?url.length:url.indexOf("?");
+            url = url.substr(0,pos)
+            url = (url==url1)? url2 : url1;
+            createIfrm(  url+"?"+Math.random());
+        });
+
+        createBtn("弹出同域窗口", function()
+        {
+            
+            openWin(window.location+"?"+Math.random());
+        });
+
+        createBtn("弹出跨域窗口", function()
+        {
+            var url = window.location+"";
+            var pos = (url.indexOf("?")==-1)?url.length:url.indexOf("?");
+            url = url.substr(0,pos)
+            url = (url==url1)? url2 : url1;
+            openWin(  url+"?"+Math.random());
+        });
+        createBtn("查找WebAgent", function()
+        {
+			var obj= findObj("MyObj.global._MyObj");
+			if(obj) MyObj = obj;
+        });
+
+        createBtn("初始WebAgent", function()
+        {
+            MyObj.global = {};
+            MyObj.global._MyObj = MyObj;
+        });
+
+        createBtn("测试WebAgent", function()
+        {
+            MyObj.invoker();
+        });
+        
+        createBtn("顶层窗口安装WebAgent",function()
+        {
+            var loadjs = function (url,win, callback)
+            {
+
+                var script = win.document.createElement('script');
+                script.type = 'text/javascript';
+                script.language = 'javascript';
+                script.src = url;
+                var done = false;
+                script.onload = script.onreadystatechange = function()
+                {
+                    if (!done && (!script.readyState || script.readyState == 'loaded' || script.readyState == 'complete'))
+                    {
+                        done = true;
+                        script.onload = script.onreadystatechange = null;
+                        if (callback)
+                        {
+                            callback.call(script);
+                        }
+                    }
+                };
+                win.document.getElementsByTagName("head")[0].appendChild(script);
+            }
+            var win = findObj();
+            var jsUrl= WebAgent.getBase()+"Cmd.js";
+            loadjs(jsUrl,win,function()
+            {
+                win.show(WebAgent.Cmd.HANG_UP);
+            })
+        });
+        
+        createBtn("显示最顶层窗口", function()
+        {
+             var win = findObj(null);
+             win.document.getElementById("url").innerHTML = "I'm here!";
+        });
+
+        document.getElementById("url").innerHTML = window.location;
+    }
+    
+
+    function openWin(url)
+    {
+        var newwin = window.open(url, '', '');
+    }
+    function createIfrm(url)
+    {
+        var ifrm = "<IFRAME  width=90% height=600   SRC='" + url + "'></IFRAME>"
+        document.getElementById("ctx").innerHTML = ifrm;
+    }
+    function show(msg)
+    {
+        document.getElementById("url").innerHTML = msg;
+    }
+   
+    
+    function findObj(objName)
+    {
+        var id = "findObj_"+Math.random();
+        
+        // {Function}是否同域
+        var isSomeDomain = function(window_)
+        {
+            var isEl = true;
+            try
+            {
+                var id = window_[id];
+            }
+            catch (e)
+            {
+                isEl = false;
+            }
+            return isEl;
+        };
+        
+        //{Function}查找同域最原始的opener
+        var findOpener = function(win)
+        {
+            var topWin = win;
+            var someDomainTopOpener = win;
+            while(true)
+            {
+                try
+                {
+                    if(topWin.closed || !topWin.opener) 
+                    {
+                        break;
+                    }
+                    var topWin = topWin.opener;
+                    if(!topWin.closed)
+                    {
+                        someDomainTopOpener = (isSomeDomain(topWin))? topWin : someDomainTopOpener;
+                    }
+                }
+                catch(e)
+                {
+                    break;
+                }
+            }
+            return someDomainTopOpener;
+        }
+        
+        var topWin = findOpener(window);
+        var list = [];
+        list.push(topWin);
+        
+        // 把同域名的所有父对象加入查询列表中
+        while (true)
+        {
+            var parentWin = topWin.parent;
+            if( !parentWin.closed && topWin == topWin.parent)
+            {
+                break;
+            }
+            if(isSomeDomain(parentWin))
+            {
+                list.push(parentWin);
+            }
+            topWin = parentWin;
+        }
+        
+        //如果objName为null，则返回最顶层的父窗口
+		if( (!arguments[0]) || (arguments[0]===undefined) )
+	    {
+		   return list[list.length-1];
+	    }
+		
+		
+        var findNum = 0;
+        while (list.length > 0 && findNum < 300)
+        {
+            win = list.pop();
+            if( !isSomeDomain(win) || win.closed || win[id]==1)
+            {
+                continue;
+            }
+            else
+            {
+                win[id] = 1;
+            }
+            
+            var ns = objName.split(".");
+            var obj = win;
+            for ( var i = 0; i < ns.length; i++)
+            {
+                var on = ns[i];
+                try
+                {
+                    obj = obj[on];
+                }
+                catch (e)
+                {
+                    /* 防止跨域访问异常 */
+                    break;
+                }
+                if (obj)
+                {
+                    if (i == (ns.length - 1))
+                    {
+                        return obj;
+                    }
+                    continue;
+                }
+                break;
+            }
+            if (win.frames)
+            {
+                var fs = win.frames;
+                for (i = 0; i < fs.length; i++)
+                {
+                    if(isSomeDomain(win.frames[i]))
+                    {
+                        list.push(win.frames[i]);
+                    }  
+                }
+            }
+            win = null;
+        }
+        return null;
+    }
+    
+</script>
+</head>
+<body onload="init()">
+基本话务功能测试!
+<hr />
+<div id="btnDiv"></div>
+<div id="url">~~~</div>
+<div id="msg">~~~</div>
+<div id="ctx">~~~</div>
+</body>
+</html>

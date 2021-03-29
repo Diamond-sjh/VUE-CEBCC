@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+
+function init()
+{
+        createBtn("初始化", function()
+        {			
+			WebAgent.init(
+			{
+				onSucc : function(isReady)
+				{
+				    go();
+				},
+				onError : function(errCode, errMsg)
+				{
+					go();
+				},
+				lang : "en"
+			});
+        })
+		
+}
+
+function getEventCode(name)
+{
+    var map = WebAgent.AinfOCX.ainfEventMap;
+	for(var i in map)
+	{
+	    if(map[i]==name)
+		{
+		    return i;
+		}
+	}
+	return name;
+}
+
+function go()
+{
+    var count=0;
+    createInput("调用方法：","method","xxx");
+    createBtn("增加事件", function(){
+	createEvent(count++);
+	});
+	
+	createBtn("生成配置信息", function(){
+		var str = getVal("method")+"=0";
+		var e="";
+		var split=""
+		var ms="@@";
+		for(var k=0;k<count;k++)
+		{
+		    e +=ms+split+getVal("time"+k)+"$"+getEventCode(getVal("eventName"+k))+"$"+getVal("args"+k);
+			split="^^";
+			ms="";
+		}
+		str +=e;
+		$("#msg").html(str);
+	});
+}
+
+function createEvent(id)
+{
+   print("<br>");
+   createInput("触发时间（ms）：","time"+id,"50");
+   createInput("事件：","eventName"+id,"");
+   createInput("参数：","args"+id,"arg1,arg2,arg3");
+}
+
+
+</script>
+</head>
+<body onload="init()">
+基本话务功能测试!
+<hr />
+<div id="btnDiv"></div>
+<div id="state"></div>
+<div id="msg"
+	style="width: 90%; height: 300px; overflow: auto; border: 1px solid #CCCCCC">
+</div>
+<input type="button" onclick="clearMsg()" value="clear" />
+<pre>
+</pre>
+</body>
+</html>

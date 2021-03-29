@@ -1,0 +1,27 @@
+{
+    "retCode":"AAAAAAA",
+    "errorMsg":"",
+        "cust_token":"xxxxxx111111",
+        "nameCh":"测试111",
+        "cardListIColl":[
+            {
+                "custNo": "0001111111115662760",
+                "cardNum": null,
+                "org": "103",
+                "cardType": null,
+                "type": "1",
+                "credit": null,
+                "account": "6226500501000222"
+            },
+            {
+                "custNo": "0001111111115662760",
+                "cardNum": "6226500501000222",
+                "org": "103",
+                "cardType": null,
+                "type": "2",
+                "credit": null,
+                "account": "6226500501000222"
+            }
+        ],
+        "warrantType": "1"
+}

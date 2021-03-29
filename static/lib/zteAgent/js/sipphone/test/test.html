@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+function init()
+{	
+        createBtn("初始化座席", function()
+        {
+            var WebAgent = top.window.WebAgent;
+			WebAgent.init(
+			{
+				onSucc : function(isReady)
+				{
+					alert("初始化成功!   " + ((isReady) ? "已经" : "未") + "登录！");
+					 onSucc();
+				},
+				onError : function(errCode, errMsg)
+				{
+					alert("初始化失败！" + errMsg);
+					        
+					createTestBtn(null, function()
+					{
+						var str="";
+						var cmd= WebAgent.Cmd;
+						for(var c in cmd)
+						{
+							str += "Cmd."+c+", "
+						}
+						info(str);
+					}, "Cmd")
+				},
+				lang : "en"
+			});
+        });
+		
+		WebAgent.loadRequireJs("en",function(){});
+		
+		print("<br>")
+		createInput("A接口错误码", "errCode", "0");
+		createBtn("查询错误码", function()
+		{
+		    var errCode = getVal("errCode");
+		    WebAgent.invoker("GetPromptByErrorCode",[errCode],function(result)
+		    {
+		        trace(errCode+"=" + result);
+		    });
+		});
+		
+		createBtn("获取A接口当前错误", function()
+		{
+			WebAgent.invoker("GetLastErrorCode",[],function(errCode)
+			{
+				WebAgent.invoker("GetPromptByErrorCode",[errCode],function(result)
+				{
+					 trace(errCode+"=" + result);
+				});
+			});
+		});
+				
+		print("<hr>")
+}
+
+    var count=1;
+    function run()
+    {
+        var script= document.getElementById("script").value;
+        geval(script)
+    }
+    
+    function runHtml()
+    {
+        var script= document.getElementById("script").value;
+        var newwin=window.open('','','');  //打开一个窗口并赋给变量newwin。 
+        newwin.opener = null // 防止代码对页面修改 
+        newwin.document.write(script);  //向这个打开的窗口中写入代码code，这样就实现了运行代码功能。 
+        newwin.document.close(); 
+    }
+    
+    function create()
+    {
+        var script= document.getElementById("script");
+        script.value +="\rcreateBtn(\"按钮名称\",function()\r{\r    \/\/click事件处理函数\r});";
+    }
+    
+    function geval(scriptTxt)
+    {
+        var head = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.text = scriptTxt;
+        head.insertBefore( script, head.firstChild );
+    }
+	
+	function createInvoker()
+	{
+		var method=getVal("method");
+		var args = getVal("args").split(",");
+		var arg ="";
+		var split="";
+		for(var i in args)
+		{
+		    arg +=split+"\""+args[i]+"\""
+			split=",";
+		}
+		var script= document.getElementById("script");
+        script.value +="\rWebAgent.invoker(\""+method+"\",["+arg+"],function(result)\r{\r\r    alert(result)\r\r});";
+		
+		$("#method").val("");
+		$("#args").val("");
+	}
+    
+    function trace(msg)
+    {
+        document.getElementById("script").value +="\r\r"+msg;
+    }
+    
+</script>
+</head>
+<body onload="init()">
+基本话务功能测试! trace("xxx") ,createBtn(btnName,clickFun)
+<hr />
+<div id="btnDiv"></div>
+<div id="state"></div>
+<input type="button" onclick="create()" value="创建按钮" />
+方法名：<input type="text"  id="method" value="" />参数：
+<input type="text"  id="args" value="" />
+<input type="button" onclick="createInvoker()" value="创建invoker" />
+<hr>
+
+<input type="button" onclick="run()" value="执行脚本" />
+<input type="button" onclick="runHtml()" value="执行HTML" />
+<br>
+<textarea id="script"  rows="20" cols="100"></textarea><br>
+<pre>
+</pre>
+</body>
+</html>

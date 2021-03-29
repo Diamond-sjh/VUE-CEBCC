@@ -1,0 +1,716 @@
+{
+  "agent_token": "dicsksneidnvgnvskWEDFEEVES3422",
+  "accCodeParam": "test001",
+  "roleCodeParam": "R1",
+  "roleResourceMenuJson": {
+    "id": "",
+    "parentid": "",
+    "cname": null,
+    "children": null,
+    "isMenuOrButton": null,
+    "menus": [
+      {
+        "id": "1",
+        "parentid": "",
+        "cname": "贷记卡查询",
+        "children": null,
+        "isMenuOrButton": "M",
+        "buttons": [],
+        "menus": [
+          {
+            "id": "13825",
+            "parentid": "1",
+            "cname": "已出账单客户版",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": [],
+            "mySelf": null,
+            "url": "EcashAccountAndDetailQuery"
+          },
+          {
+            "id": "22457",
+            "parentid": "1",
+            "cname": "任务监控查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "buttons": null,
+            "menus": null,
+            "mySelf": null,
+            "url": "TestTrans2"
+          },
+          {
+            "id": "22104",
+            "parentid": "1",
+            "cname": "京东订单号查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": [],
+            "mySelf": null
+          },
+          {
+            "id": "22106",
+            "parentid": "1",
+            "cname": "电子支付查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": [],
+            "mySelf": null,
+            "url": "credit/query/electronicpayquery/ElectronicPayQuery",
+            "buttons": [
+              {
+                "id": "111",
+                "cname": "电子支付查询",
+                "url": "",
+                "onClick": "ePayQueryBtnClickHandler",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "222",
+                "cname": "网银支付查询",
+                "url": "",
+                "onClick": "onlinePayBtnClickHandler",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "333",
+                "cname": "短信发送",
+                "url": "",
+                "onClick": "messageBtnClickHandler",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "444",
+                "cname": "生成工单",
+                "url": "",
+                "onClick": "orderBtnClickHandler",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "10000",
+            "parentid": "1",
+            "cname": "乐惠金卡账务查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": [],
+            "mySelf": null,
+            "url": "credit/query/LehuiAccountingQuery",
+            "buttons": [
+              {
+                "id": "10001",
+                "cname": "合计",
+                "code": "P_7_10_B",
+                "url": "",
+                "onClick": "totalBtnCLickHandler",
+                "isMenuOrButton": "B"
+              }
+            ]
+          }
+        ],
+        "mySelf": null
+      },
+      {
+        "id": "2",
+        "parentid": "",
+        "cname": "贷记卡操作",
+        "children": null,
+        "isMenuOrButton": "M",
+        "buttons": [],
+        "menus": [
+          {
+            "id": "18101",
+            "parentid": "2",
+            "cname": "网点排队查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "buttons": null,
+            "menus": null,
+            "mySelf": null
+          },
+          {
+            "id": "33",
+            "parentid": "2",
+            "cname": "卡片激活",
+            "children": null,
+            "isMenuOrButton": "M",
+            "buttons": [],
+            "menus": [],
+            "mySelf": null,
+            "url": "EcashAccountAndDetailQuery"
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "parentid": "",
+        "cname": "综合业务查询",
+        "children": null,
+        "isMenuOrButton": "M",
+        "buttons": [],
+        "menus": [
+          {
+            "id": "310180",
+            "parentid": "3",
+            "cname": "个人贷款查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "debit/query/personalloanquery/PersonalLoanQuery",
+            "buttons": [
+              {
+                "id": "3101801",
+                "cname": "详细信息查询",
+                "url": "debit/query/personalloanquery/DetailMessageQuery|multipleSelection,CustNo,keyC",
+                "onClick": "detailMessageQuery",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "3101802",
+                "cname": "还款计划查询",
+                "url": "debit/query/personalloanquery/RepaymentPlanQuery|multipleSelection",
+                "onClick": "repayPlanQuery",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "3101803",
+                "cname": "还款明细查询",
+                "url": "debit/query/personalloanquery/DetailRepaymentQuery|multipleSelection",
+                "onClick": "detailRepayQuery",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "22109",
+            "parentid": "1",
+            "cname": "渠道签约查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "ChannelSignContract",
+            "buttons": [
+              {
+                "id": "777",
+                "cname": "解约",
+                "url": "",
+                "onClick": "aaaa",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "18001",
+            "parentid": "1",
+            "cname": "短信通查询",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "sjh/MessageHelperInquire",
+            "buttons": [
+              {
+                "id": "0",
+                "cname": "按客户号查询",
+                "url": "",
+                "onClick": "MessageHelperInquire_customerID",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "1",
+                "cname": "按手机号查询",
+                "url": "",
+                "onClick": "MessageHelperInquire_mobile",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "18002",
+            "parentid": "3",
+            "cname": "短信通查询(离线)",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "sjh/MessageHelperInquireOffLine",
+            "buttons": [
+              {
+                "id": "0",
+                "cname": "按手机号查询",
+                "url": "",
+                "onClick": "MessageHelperInquireOffLine_mobile",
+                "isMenuOrButton": "B"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4",
+        "parentid": "",
+        "cname": "综合业务操作",
+        "children": null,
+        "isMenuOrButton": "M",
+        "buttons": [],
+        "menus": [
+          {
+            "id": "310211",
+            "parentid": "5",
+            "cname": "网贷申请",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "debit/operation/netloanapplication/NetLoanApplication",
+            "buttons": [
+              {
+                "id": "3101801",
+                "cname": "申请",
+                "url": "",
+                "onClick": "applicationBtnHandler",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "310212",
+            "parentid": "501",
+            "cname": "网贷申请失败",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "debit/operation/netloanapplication/ApplyFailMessage",
+            "buttons": []
+          },
+          {
+            "id": "180001",
+            "parentid": "501",
+            "cname": "外呼白名单查询修改",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "sjh/CallOutWhitelistsInquire",
+            "buttons": [
+              {
+                "id": "0",
+                "cname": "暂停外呼",
+                "url": "",
+                "onClick": "CallOutWhitelistsInquire_pause",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "1",
+                "cname": "恢复外呼",
+                "url": "",
+                "onClick": "CallOutWhitelistsInquire_recove",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "18002",
+            "parentid": "3",
+            "cname": "口头挂失",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "sjh/OralReportTheLoss",
+            "buttons": [
+              {
+                "id": "0",
+                "cname": "查询",
+                "url": "",
+                "onClick": "OralReportTheLoss_inquire",
+                "isMenuOrButton": "B"
+              },
+              {
+                "id": "1",
+                "cname": "挂失",
+                "url": "",
+                "onClick": "OralReportTheLoss_loss",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "18003",
+            "parentid": "3",
+            "cname": "资金归集解约",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "sjh/CashSweepTermination",
+            "buttons": [
+              {
+                "id": "0",
+                "cname": "解约",
+                "url": "",
+                "onClick": "CashSweepTermination_termination",
+                "isMenuOrButton": "B"
+              }
+            ]
+          },
+          {
+            "id": "18004",
+            "parentid": "3",
+            "cname": "短信通设置",
+            "children": null,
+            "isMenuOrButton": "M",
+            "menus": null,
+            "mySelf": null,
+            "url": "sjh/MessageHelperSetting/MessageHelperSetting",
+            "buttons": []
+          }
+        ]
+      }
+    ],
+    "mySelf": null
+  },
+  "roleResourceZero": [
+    {
+      "order_no": null,
+      "code": "C_1",
+      "permission_info_id": "27540",
+      "perm_name": "个人空间",
+      "perm_type": "M",
+      "onclick": null,
+      "image": "icon-wodejuhuasuan",
+      "menuType": "0",
+      "perm_parent_id": null,
+      "title": "个人空间",
+      "auto_display_sign": "1",
+      "url": "/personalcenter"
+    },
+    {
+      "order_no": null,
+      "code": "C_0",
+      "permission_info_id": "27539",
+      "perm_name": "联络中心",
+      "perm_type": "M",
+      "onclick": null,
+      "image": "icon-yuyin",
+      "menuType": "0",
+      "perm_parent_id": null,
+      "title": "联络中心",
+      "auto_display_sign": "1",
+      "url": "/mainCenter"
+    },
+    {
+      "order_no": null,
+      "code": "C_2",
+      "permission_info_id": "27541",
+      "perm_name": "后台管理",
+      "perm_type": "M",
+      "onclick": null,
+      "image": "icon-shezhi",
+      "menuType": "0",
+      "perm_parent_id": null,
+      "title": "后台管理",
+      "auto_display_sign": "1",
+      "url": "/admin"
+    },
+    {
+      "order_no": null,
+      "code": "P_3_M",
+      "permission_info_id": "27541",
+      "perm_name": "设置",
+      "perm_type": "M",
+      "onclick": null,
+      "image": "icon-shezhi",
+      "menuType": "0",
+      "perm_parent_id": null,
+      "title": "设置",
+      "auto_display_sign": "1",
+      "url": "/admin"
+    }
+  ],
+  "roleResourceMenuBackJson": {
+    "id": "0",
+    "menus": [
+      {
+        "id": 4,
+        "cname": "安全管理",
+        "url": "internalmanagement/security",
+        "menus": [
+          {
+            "id": 9,
+            "url": "user/UserList",
+            "cname": "用户管理",
+            "name": "userlist"
+          },
+          {
+            "id": 10,
+            "url": "jurisdiction/JurisdictionQuery",
+            "cname": "权限管理",
+            "name": "jurisdictionquery"
+          },
+          {
+            "id": 11,
+            "url": "role/RoleList",
+            "cname": "角色管理",
+            "name": "roleList"
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "cname": "参数管理",
+        "url": "internalmanagement/parameter",
+        "menus": [
+          {
+            "id": 13,
+            "url": "technical/TechnicalList",
+            "cname": "技术参数管理",
+            "name": "technicallist"
+          },
+          {
+            "id": 14,
+            "url": "business/BusinessList",
+            "cname": "业务参数管理",
+            "name": "businesslist"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "cname": "技能管理",
+        "url": "",
+        "menus": [
+          {
+            "id": 16,
+            "url": "internalmanagement/skill/operator/OperaterInfoMaintain",
+            "cname": "操作员信息维护",
+            "name": "operaterinfomaintain",
+            "buttons": [
+              {
+                "id": 13,
+                "cname": "关联技能组",
+                "url": "internalmanagement/skill/operator/RelSkillGroup"
+              }
+            ]
+          },
+          {
+            "id": 19,
+            "url": "internalmanagement/skill/skillgroup/SkillInfo",
+            "cname": "技能信息维护",
+            "name": "skillinfo",
+            "buttons": [
+              {
+                "id": 29,
+                "cname": "技能组合信息维护",
+                "url": "internalmanagement/skill/skillgroup/SkillGroup"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 17,
+        "cname": "坐席分类管理",
+        "url": "internalmanagement/seatclass",
+        "menus": [
+          {
+            "id": 18,
+            "url": "seatClassInfo/SeatClassInfo",
+            "cname": "坐席分类信息",
+            "name": "seatclassinfo"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "cname": "用户及角色管理",
+        "url": "internalmanagement/organization",
+        "menus": [
+          {
+            "id": 22,
+            "url": "OrganizationPage",
+            "cname": "组织机构管理",
+            "name": "organizationpage"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "cname": "方案列表",
+        "url": "internalmanagement/programme",
+        "menus": [
+          {
+            "id": 22,
+            "url": "ProgrammeList",
+            "cname": "方案列表",
+            "name": "programmelist"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "cname": "配置管理",
+        "url": "internalmanagement/strategyset",
+        "menus": [
+          {
+            "id": 22,
+            "url": "StrategySet",
+            "cname": "配置管理",
+            "name": "strategyset"
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "cname": "行政管理",
+        "url": "internalmanagement/administrative",
+        "menus": [
+          {
+            "id": 22,
+            "url": "Administrative",
+            "cname": "行政管理",
+            "name": "administrative"
+          }
+        ]
+      },
+      {
+        "id": 28,
+        "cname": "URL鉴权",
+        "url": "internalmanagement/identifyrights",
+        "menus": [
+          {
+            "id": 25,
+            "url": "IdentifyRights",
+            "cname": "URL鉴权",
+            "name": "identifyrights"
+          }
+        ]
+      },
+      {
+        "id": 29,
+        "url": "internalmanagement/reload",
+        "cname": "业务参数重载",
+        "menus": [
+          {
+            "id": 29,
+            "url": "busReload",
+            "cname": "业务参数重载",
+            "name": "busReload"
+          }
+        ]
+      },
+      {
+        "id": 31,
+        "cname": "现场管理及查询",
+        "menus": [
+          {
+            "id": 32,
+            "url": "internalmanagement/fieldManage",
+            "cname": "公告管理",
+            "menus": [
+              {
+                "id": 33,
+                "url": "notice/marquee",
+                "cname": "跑马灯信息管理",
+                "name": "marquee"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 40,
+        "url": "internalmanagement/otherbusPreserve",
+        "cname": "其他业务信息维护",
+        "menus": [
+          {
+            "id": 40,
+            "url": "bjThemRouly",
+            "cname": "北京号段维护",
+            "name": "bjThemRouly"
+          }
+        ]
+      },
+      {
+        "id": 39,
+        "cname": "名单管理",
+        "url": "namelist",
+        "menus": [
+          {
+            "id": 55,
+            "url": "BlackList",
+            "cname": "监管黑名单",
+            "name": "blackbist"
+          },
+          {
+            "id": 43,
+            "url": "onetooneExclusive",
+            "cname": "一对一专属坐席服务名单",
+            "name": "onetooneExclusive"
+          },
+          {
+            "id": 40,
+            "url": "newExcluseCustom",
+            "cname": "新员工专属客户",
+            "name": "newExcluseCustom"
+          },
+          {
+            "id": 42,
+            "url": "regionDebitcardCust",
+            "cname": "区域经营借记卡客户",
+            "name": "regionDebitcardCust"
+          },
+          {
+            "id": 42,
+            "url": "whiteList",
+            "cname": "白名单",
+            "name": "whiteList"
+          },
+          {
+            "id": 44,
+            "url": "regulatoryBlackList",
+            "cname": "监管黑名单",
+            "name": "regulatoryBlackList"
+          }
+        ]
+      },
+      {
+        "id": 69,
+        "cname": "业务维护",
+        "url": "businessmaintain",
+        "menus": [
+          {
+            "id": 585,
+            "url": "TalkingMaintain",
+            "cname": "话术维护",
+            "name": "talkingmaintain"
+          },
+          {
+            "id": 595,
+            "url": "errormaintain",
+            "cname": "错误码维护",
+            "name": "errormaintain"
+          }
+        ]
+      },
+      {
+        "id": 69,
+        "cname": "重载",
+        "url": "load",
+        "menus": [
+          {
+            "id": 585,
+            "url": "redisLoad",
+            "cname": "redis重载",
+            "name": "redisload"
+          }
+        ]
+      }
+    ]
+  },
+  "retCode": "AAAAAAA",
+  "errorMsg": ""
+}

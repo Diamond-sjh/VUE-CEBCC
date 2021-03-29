@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript">
+    var settingArr = [];
+    var index = 1;
+    
+    /**
+     * 初始化
+     */
+    function init()
+    {
+        print("===============================================================<br>")
+        
+        createInput("WebAgent位置:", "webagentID", "parent.WebAgent");
+        createInput("EventManager位置:", "EventManagerID", "parent.EventManager");
+        print("<hr>");
+        
+        createInput("模拟次数:", "loopNum", "20");
+        createInput("间隔时间s:", "waitTime", "0.5");
+        print("<hr>")
+        
+        createBtn("设置呼入数据", function()
+        {
+            print("<br>");
+            var callingNo = "2388881159";
+            var flowNo = "2011080216070200018";
+            var userData = "220^15^2011080216070200018^220^65007";
+            settingArr.push(createNewSetting(callingNo, flowNo, userData));
+            print("<br>");
+        });
+
+        createBtn("重新开始", function()
+        {
+            document.URL = location.href;
+        });
+
+        createBtn("--  开始     --", function()
+        {
+            Incoming.start(settingArr);
+        });
+        print("<br><br>")
+    }
+
+    /**
+     * 创建呼入数据设置
+     */
+    function createNewSetting(callingNo, flowNo, userData)
+    {
+        index++;
+        var callingNoID = "callingNo_" + (index);
+        var flowNoID = "flowNo_" + (index);
+        var userDataID = "userData_" + (index);
+
+        createInput("呼入号码:", callingNoID, (callingNo) ? callingNo : "");
+        createInput("流水号:", flowNoID, (flowNo) ? flowNo : "");
+        createInput("随路数据:", userDataID, (userData) ? userData : "");
+
+        var set =
+        {
+            getCallingNo : function()
+            {
+                return getVal(callingNoID);
+            },
+
+            getFlowNo : function()
+            {
+                return getVal(flowNoID);
+            },
+
+            getUserData : function()
+            {
+                return getVal(userDataID);
+            }
+        };
+
+        return set;
+    }
+    
+    function trace(msg)
+    {
+        var msgDiv = document.getElementById("msg");
+        msgDiv.innerHTML += "<br><font color=#0099FF>" + msg + "</font>";
+        msgDiv.scrollTop = msgDiv.scrollHeight;
+    }
+
+    /**
+     * 开始呼入
+     */
+    Incoming =
+    {
+        curIndex : 0,
+        
+        setArr : [],
+        
+        waitTime : 5,
+        
+        loopNum : 0,
+        
+        WebAgent : null,
+        
+        EventManager : null,
+
+        start : function(setArr_)
+        {
+			this.setArr = setArr_;
+			if (this.setArr.length < 1)
+	        {
+	            alert("请先设置呼入数据！！");
+	            return;
+	        }
+			
+			this.loopNum = getVal("loopNum")*1;
+			
+			this.waitTime = getVal("waitTime")*1;
+
+	        eval("var WebAgent = " + getVal("webagentID"));
+	        eval("var EventManager = " + getVal("EventManagerID"));
+
+	        if (!WebAgent)
+	        {
+	            alert("请指定WebAgent的位置");
+	            return;
+	        }
+
+	        if (!EventManager)
+	        {
+	            alert("请指定EventManager的位置");
+	            return;
+	        }
+	        
+	        this.WebAgent = WebAgent;
+	        this.EventManager = EventManager;
+	        this.doCall();
+        },
+
+        initWebAgent : function()
+        {
+            var thisobj = this;
+            WebAgent.init(
+            {
+                onSucc : function(isReady)
+                {
+                    thisobj.doCall();
+                },
+                onError : function(errCode, errMsg)
+                {
+                    alert("webagent init failed");
+                }
+            });
+        },
+        
+        setData : function(set)
+        {
+            this.WebAgent.GetFlowNO = function(){ return set.getFlowNo()};
+            this.WebAgent.GetFlowNo = function(){ return set.getFlowNo()};
+            this.WebAgent.GetCallingNO = function(){ return set.getCallingNo()};
+            this.WebAgent.GetUserData = function(){ return set.getUserData()};
+        },
+        
+        doCall : function()
+        {
+            if(this.loopNum<1) return;
+            this.setData(this.setArr[this.curIndex]);
+            var data = this.WebAgent.GetUserData();
+            
+            this.EventManager.fireEvent(this.EventManager.WEBAGENT_MSG_HANDLE, {type: '80', data: data,webAgent:this.WebAgent});
+            this.WebAgent.EventHelper.notify("OnAnswerRequest",[]);
+            
+            this.EventManager.fireEvent(this.EventManager.WEBAGENT_MSG_HANDLE, {type: '11', data: data,webAgent:this.WebAgent});
+            this.WebAgent.EventHelper.notify("OnAnswerSuccess",[]);
+            
+            trace("============"+this.loopNum+"============")
+            trace("[callingNo,flowNo,userData] ="+[this.WebAgent.GetCallingNO(),this.WebAgent.GetFlowNO(),this.WebAgent.GetUserData()])
+            
+            this.loopNum --;
+            this.curIndex++;
+            if(this.curIndex >= this.setArr.length)
+            {
+                this.curIndex =0;
+            }
+            
+            var thisobj = this;
+            setTimeout(function()
+            {
+                thisobj.EventManager.fireEvent(thisobj.EventManager.WEBAGENT_MSG_HANDLE, {type: '6', data: "1",webAgent:thisobj.WebAgent});
+                thisobj.WebAgent.EventHelper.notify("OnReleaseSuccess",[]);
+                
+                thisobj.doCall();
+            },this.waitTime*1000);
+        }
+    };
+    
+    function clsMsg()
+    {
+        document.getElementById("msg").innerHTML = "";
+    }
+</script>
+<style>
+#msg {
+	width: 90%;
+	height: 200px;
+	overflow: auto;
+	border: 1px solid #CCCCCC;
+}
+</style>
+</head>
+<body onload="init()">
+<div id="btnDiv"></div>
+<div id="msg"></div>
+<input type="button" onclick="clsMsg()" value="clear" />
+<pre>
+</pre>
+</body>
+</html>

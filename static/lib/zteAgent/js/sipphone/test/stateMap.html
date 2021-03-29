@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+/**
+ * 命令列表 作用：统一定义各命令的名称 每个命令对应传统座席的某个菜单项
+ */
+map =
+{
+    /**
+     * 话务
+     */
+    "Cmd.HANG_UP"	: "挂机",
+    "Cmd.HOLD"	: "保持",
+    "Cmd.RE_HOLD"	: "取消保持",
+    "Cmd.TRANSFER"	: "转接",
+    "Cmd.SSTRANSFER"	: "单步转移",
+    "Cmd.MAKE_CALL"	: "呼叫",
+    "Cmd.FAST_CALL"	: "快速呼出",
+    "Cmd.SWITCH"	: "交换",
+    "Cmd.RECONNECT"	: "重连",
+    "Cmd.RE_CALL"	: "重拨",
+    "Cmd.SHOW_BUSY"	: "示忙",
+    "Cmd.IDLE"	: "示闲",
+    "Cmd.SERVICE"	: "服务",
+    "Cmd.CANCEL_ADJUST"	: "取消整理",
+    "Cmd.MANUAL_ADJUST"	: "整理",
+    "Cmd.MEDIA"	: "媒体",
+    "Cmd.CONS"	: "咨询",
+    "Cmd.ALTERNATE"	: "切换",
+    "Cmd.QC"	: "质检",
+    "Cmd.WEB_CHAT_ON"	: "聊天上线",
+    "Cmd.WEB_CHAT_OFF"	: "聊天下线",
+    "Cmd.MUTE"	: "静音",
+    "Cmd.UNMUTE"	: "取消静音",
+    "Cmd.RECORD"	: "开始录音",
+    "Cmd.STOP_RECORD"	: "停止录音",
+    "Cmd.TRANSFER_VOICE"	: "转接语音",
+    "Cmd.RECEIVE_PHONE_NO"	: "收集号码",
+    "Cmd.SECOND_DIAL"	: "二次拨号",
+
+    /**
+     * 高级话务功能
+     */
+    "Cmd.PLAY_RECENT_REC"	: "播放最近录音",
+    "Cmd.CONF"	: "三方通话",
+    "Cmd.SSCONF"	: "单步会议",
+    "Cmd.SET_ALLOW_SPEAK"	: "设置禁言",
+    "Cmd.APPOINT_AGT_PROC"	: "指定座席处理",
+    "Cmd.APPOINT_MEDIA_PROC"	: "指定媒体处理",
+    "Cmd.CALL_HELP"	: "呼叫求助",
+    "Cmd.SEND_NOTICE"	: "发送通知",
+    "Cmd.READ_NOTICE"	: "阅读通知",
+    "Cmd.REQ_HELP"	: "请求帮助",
+    "Cmd.QUERY_HELP"	: "查看帮助",
+    "Cmd.LEAVE"	: "离席",
+    "Cmd.REQ_UNLOCK"	: "请求解锁",
+    "Cmd.HANDLE_UNLOCK"	: "解锁审批",
+    "Cmd.LEARN"	: "学习",
+    "Cmd.CALL_HISTORY"	: "呼叫历史",
+    "Cmd.RECENT_HISTORY"	: "最近操作历史",
+    "Cmd.CHAT_HISTORY"	: "聊天历史",
+    "Cmd.VIDEO_MSG"	: "视频留言",
+    "Cmd.FORCE_BUSY"	: "强制示忙",
+    "Cmd.FORCE_IDLE"	: "强制示闲",
+    "Cmd.FORCE_SIGNOUT"	: "强制退出",
+    "Cmd.PLAY_VIDEO"	: "播放视频",
+    "Cmd.PLAY_REC"	: "播放录音",
+    "Cmd.PLAY_TTS"	: "播放TTS",
+    "Cmd.SET_NIGHT_RING"	: "设置夜铃",
+    "Cmd.PERSONAL_REPORT"	: "个性化报工号",
+    "Cmd.APPROVE_PERSONAL_REPORT"	: "审批个性化报工号",
+    "Cmd.NOTICE"	: "定时提醒",
+    "Cmd.SET_NIGHT_SERVICE"	: "设置夜服",
+    "Cmd.VIEW_QUEUE"	: "排队查看",
+
+    /**
+     * 视频
+     */
+    "Cmd.STOP_SEND_CAP_SCR"	: "停止发送截屏",
+    "Cmd.CAPTURE_SCREEN"	: "截屏",
+    "Cmd.SEND_CAP_SCR"	: "发送截屏",
+
+    /**
+     * 监控
+     */
+    "Cmd.INTERCEPT"	: "拦截",
+    "Cmd.LISTEN"	: "监听",
+    "Cmd.CHIP_IN"	: "插话",
+    "Cmd.COACH"	: "教练",
+    "Cmd.FORCE_LOCK"	: "强锁",
+    "Cmd.FORCE_HANGUP"	: "强拆",
+    "Cmd.SET_KEY_RECORD"	: "设置关键录音",
+    "Cmd.LISTEN_TO_CHIPIN"	: "监听转插话",
+    "Cmd.REAL_TIME_QC"	: "实时质检",
+    "Cmd.CANCEL_FULL_LISTEN"	: "取消全程监听",
+    "Cmd.SCREEN_MONITOR"	: "同屏监控",
+    "Cmd.RECORD_SCREEN"	: "录制屏幕",
+    "Cmd.HANDLE_LEAVE"	: "离席审批",
+    "Cmd.PLACE_MONITOR"	: "参所监控",
+    "Cmd.SYSTEM_MONITOR"	: "系统监控",
+    "Cmd.SKILL_MONITOR"	: "技能监控",
+
+    /**
+     * 系统、其他
+     */
+    "Cmd.SIGNIN"	: "签入",
+    "Cmd.MODIFY_PWD"	: "修改密码",
+    "Cmd.LOGOUT"	: "注销",
+    "Cmd.EXIT"	: "退出",
+    "Cmd.SETTING"	: "设置,",
+    SET_RIGHT_CMD_MAP : "setRightCmdMap"
+};
+
+
+    function init()
+    {
+        createBtn("初始化", function()
+        {
+            var WebAgent = top.window.WebAgent;
+            WebAgent.init(
+            {
+                onSucc : onSucc,
+                onError : onSucc,
+                lang : "zh_CN"
+            });
+        })
+
+    }
+
+    function noop()
+    {
+    }
+	
+	function getCmds()
+	{
+	    var cmd=[];
+		for(var i in WebAgent.Cmd)
+		{
+		    cmd.push(WebAgent.Cmd[i]);
+		}
+		return cmd;
+	}
+	
+	function getCmdDef(cmdStr)
+	{
+	    for(var i in WebAgent.Cmd)
+		{
+		   if(WebAgent.Cmd[i]==cmdStr)
+		   {
+		       return "Cmd."+i;
+		   }
+		}
+		return "Cmd.XXX";
+	}
+	
+	function getNotInCmds(existCmds)
+	{
+		var  allCmds = [].concat(getCmds());
+		while(existCmds.length>0)
+		{
+			var cmd = existCmds.pop();
+			for(var i=0;i<allCmds.length;i++)
+			{
+				if(allCmds[i]==cmd)
+				{
+				   allCmds.splice(i,1);
+				   break;
+				}
+			}
+		}
+		return allCmds;
+	}
+	
+	function getStates()
+	{
+	    var states=[];
+		for(var i in WebAgent.State)
+		{
+		    states.push(WebAgent.State[i])
+		}
+		return states;
+	}
+	
+	
+	function showCmd(cmds)
+	{
+		$("#allCmds").empty();
+		$("#curCmds").empty();
+		
+	    for(var i=0;i<cmds.length;i++)
+		{
+		    var cmd_=getCmdDef(cmds[i]);
+			$("#curCmds").append("<option value='"+cmds[i]+"'>"+map[cmd_] +"    :"+cmd_+"</option>")
+		}
+		
+		var notExistCmds = getNotInCmds(cmds);
+	    for(var i=0;i<notExistCmds.length;i++)
+		{
+			 var cmd_=getCmdDef(notExistCmds[i]);
+			$("#allCmds").append("<option value='"+notExistCmds[i]+"'>"+map[cmd_] +"    :"+cmd_+"</option>")
+		}
+	}
+	
+	function out()
+	{
+		var str="[";
+		var sp="";
+		$("#curCmds option").each(function()
+		{
+		str +=sp+getCmdDef($(this).val());
+		sp=",";
+		});
+		str+="];"
+		$("#out").val(str)
+	}
+
+    function onSucc(isReady)
+    {
+	  var states = getStates();
+	  for(var i in WebAgent.State)
+	  {
+	     $("#states").append("<option value='"+i+"'>"+WebAgent.State[i].name+"</option>")
+	  }
+	  
+	  $("#states").change(function()
+	  {
+	      showCmd(WebAgent.State[$("#states").val()].enableCmds)
+	  });
+	  
+	  $("#outBtn").click(out);
+	  
+	  $("#addBtn").click(function()
+	  {
+		$("#allCmds option:selected").each(function()
+		{
+			$("#curCmds").append($(this).clone());
+			$(this).remove();
+		});
+		out();
+	  });
+	  
+	  $("#rmvBtn").click(function()
+	  {
+		$("#curCmds option:selected").each(function()
+		{
+			$("#allCmds").append($(this).clone());
+			$(this).remove();
+		});
+		out();
+	  });
+    }
+	
+	
+	
+</script>
+</head>
+<body onLoad="init()">
+基本话务功能测试!
+
+<table width="717" height="260" border="1" align="center">
+  <tr>
+    <td height="41" colspan="3" id="btnDiv">
+	<label>state
+        <select name="states" id="states">
+      </select>
+    </label>      <label>
+    <input name="outBtn" type="button" id="outBtn" value="输出">
+    -------&gt;</label></td>
+  </tr>
+  <tr>
+    <td width="227" height="140"><label>
+      未选命令<br>
+      <select name="allCmds" size="20" multiple id="allCmds" style="width:400px">
+
+      </select>
+    </label></td>
+    <td width="61"><label>
+      <input name="addBtn" type="button" id="addBtn" value="  &gt;&gt;  ">
+      <br>
+      <br>
+      <input name="rmvBtn" type="button" id="rmvBtn" value="  &lt;&lt;  ">
+    </label></td>
+    <td width="407">
+	  已选命令<br>
+	  
+      <select name="curCmds" size="20" multiple id="curCmds" style="width:400px">
+      </select>
+    </p></td>
+  </tr>
+  <tr>
+    <td colspan="3">
+    <label>
+    <textarea name="out" cols="80" rows="8" id="out"></textarea>
+    </label></td>
+  </tr>
+</table>
+<div id="msg"></div>
+</body>
+</html>

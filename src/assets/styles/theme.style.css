@@ -1,0 +1,581 @@
+html,body{
+    height: 100%;width: 100%;
+}
+
+*{
+    margin:0; 
+    padding:0;
+    box-sizing: border-box;
+}
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.clearfix { display: inline-table; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* End hide from IE-mac */
+
+/* .el-table th,.el-table th>.cell,
+.el-table td,.el-table td>.cell{
+    padding:3px!important;
+} */
+
+.csr-app{
+    color:rgb(51,51,51);
+}
+.csr-app .bg-white{
+    background-color: white;
+}
+/* csr按钮样式 */
+.csr-app .csr-button{
+    padding: 12px 15px;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+/* caption标题 */
+.csr-app caption.table-title{
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(35,35,35);
+    margin: 10px 0 10px 15px;
+    /* ie，edge浏览器不支持，所以不能用了 */
+    /* inline-size: max-content;   */
+    /* writing-mode: horizontal-tb; */
+    display: flex;
+    align-items: center;
+}
+.csr-app caption.table-title:before{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: orange;
+    content: "";
+    display:inline-block;
+    /* top:-3px; */
+    left:-13px;
+    position: relative;
+}
+/* 文字颜色 */
+.csr-app .txtcolor-999999{
+    color: #999999;
+}
+.csr-app .txtcoor-666666{
+    color: #666666;
+}
+.csr-app .txtcolor-333333{
+    color: #333333;
+}
+.csr-app .txtcolor-b0b0b0{
+    color: #b0b0b0;
+}
+
+.csr-app table.table-public th,.csr-app table.table-public td{
+   font-size: 12px;
+   color:rgb(51,51,51);
+   padding: 10px 10px;
+}
+/* 所有el基本表格样式 padding 8px */
+.csr-app .el-table td, .csr-app .el-table th{
+    padding: 8px 0;
+}
+.csr-app .el-table .cell, .csr-app .el-table th div,.csr-app .el-table--border td:first-child .cell,.csr-app .el-table--border th:first-child .cell{
+    padding-left:4px;
+}
+.csr-app .el-table .cell,.csr-app .el-table th div{
+    padding-right: 4px;
+}
+.csr-theme-blue .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed{
+    border-right: none;
+}
+/* ------------------------------------------------------- */
+
+/* 语音联络中心电话条按钮 */
+.csr-app .phone-bar-btn{
+    height:55px;
+    display: flex;
+    padding: 0 12px;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.csr-app .phone-bar-btn.disable{
+    background: linear-gradient( rgb(225,225,225) 50%,rgb(243,243,243));
+    border: 1px solid white;
+    color: #b0b0b0;
+}
+.csr-app .phone-bar-btn i{
+    font-size: 22px;
+}
+
+/*----------------------------------查询结果样式--------------------------------------- */
+.csr-app .querylist_style{
+    height:14px;
+    line-height:14px;
+    font-size:14px;
+    font-weight: bold;
+    color: rgb(35,35,35);
+    text-align:left;
+    padding-left:10px;
+    margin:10px 0 10px 0;
+}
+.csr-app .query_style{
+    width:100%;
+    height:2px;
+    background:rgb(234,234,234);
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.csr-app .query_style .query_style_backg{
+    width:96px;
+    height:2px;
+    /* background:rgb(37,150,230); */
+}
+
+
+
+/**主题样式修改*/
+.csr-theme-dark .bg-color{
+    background-color: #303131;
+}
+.csr-theme-green .bg-color{
+    background-color: #e8f7f0;
+}
+.csr-theme-red .bg-color{
+    background-color: #f7e1da;
+}
+.csr-theme-blue .bg-color{
+    background:rgb(230,241,251);
+}
+.csr-theme-dark table.table-public th{
+    background-color: #909399;
+    color: white;
+}
+
+
+/* 绿色主题表格样式 */
+.csr-theme-green table.table-public th{
+    background:#e8f7f0;
+  }
+
+  /* 蓝色主题表格样式 */
+    .csr-theme-blue table.table-public th{
+        /* background:rgb(230,241,251); */
+        background:#e6f1fb;
+    }
+    .csr-theme-blue table.table-public.table-public-border th,.csr-theme-blue table.table-public-border td{
+        border: 1px solid #bbd5fb;
+    } 
+
+    .csr-theme-blue .phone-bar-btn.default{
+        background:linear-gradient(#167bd7 50%,rgb(4,78,144));
+        border: 1px solid rgb(39,185,252);
+    }
+
+    .csr-theme-blue .satify-btn{
+        /* background: linear-gradient(#a7d4fe,#4b9fee); */
+        background: linear-gradient(#167dd9,#054e90);
+        border: 1px solid rgb(39,185,252,1);
+    }
+    .csr-theme-blue .identify-btn{
+        background: linear-gradient(#a7d4fe,#4b9fee);
+        border: 1px solid rgb(39,185,252,1);
+    }
+
+    .csr-theme-blue .trans-menu-bg{
+        background: linear-gradient(rgba(228,242,252,1),rgba(243,250,255,1),rgba(218,233,244,1));
+        border: 1px solid rgb(175,200,238);
+    }
+    .csr-theme-blue .pop-up-item-top-bar{
+        background-image:url(/static/img/theme/header-bg-blue.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .csr-theme-blue .btn-primary{
+        background-color: rgb(86,149,245);
+        border: 1px rgb(37,150,230) solid;
+    }
+    .csr-theme-blue .btn-plain{
+        background-color: white;
+        border: 1px rgb(37,150,230) solid;
+    }
+
+    .csr-theme-blue .btn-primary.border,.csr-theme-blue .btn-plain.border{
+        
+    }
+
+    /* 联络中心左侧用户信息头部底图 */
+    .csr-theme-blue .left-cust-info .customer-base-info .customer-top-wrapper{
+        background: url(/static/img/theme/customer-base-bg-blue.png) no-repeat;
+        background-size: cover;
+    }
+    .csr-theme-blue .text-theme-color{
+        color:rgb(25,113,191);
+    }
+    /* element-table 表格头部底色样式 */
+    /* .csr-theme-blue .el-table__header tr */
+    .csr-theme-blue .el-table__header th{
+      /* background-color: rgb(225,240,251);   */
+      background: linear-gradient(#fbfdff,#e4f2fc);
+      /* border: 1px solid #94abfd; */
+    }
+    .csr-theme-blue .el-table--border, .el-table--group {
+        border: 1px solid rgb(175,200,238);
+    }
+
+    .csr-theme-blue .el-table--border td,
+    .csr-theme-blue .el-table--border th,
+    /* .csr-theme-blue .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed{
+        border-right: 1px solid rgb(175,200,238);
+    } */
+    .csr-theme-blue .el-table td,.csr-theme-blue .el-table th.is-leaf{
+        border-bottom: 1px solid rgb(175,200,238);
+    }
+
+    /* elemment-button 样式 */
+    .csr-theme-blue .el-button--primary.is-plain{
+        color: rgb(51,51,51);
+        /* background: #ecf5ff; */
+        background: linear-gradient(#fbfdff,#e4f2fc);
+        border-color: #c2cffe;
+    }
+
+    .csr-theme-blue input.el-input__inner{
+        background-color: #f8faff;
+        border: 1px #dfe8fb solid;
+    }
+    .csr-theme-blue .querylist_style.border{
+        border-left:3px solid rgb(37,150,230);
+    }
+    .csr-theme-blue .query_style_backg.background{
+        background: rgb(37,150,230);
+    }
+    .csr-theme-blue .but_color{
+        background:rgb(37,150,230); 
+        border:1px solid rgb(37,150,230);
+        color: white;
+    }
+    
+    .csr-theme-blue .dataTableStyle{  /* 字体超链接样式 */
+        color:rgb(37,150,230);
+        
+    }
+    .csr-theme-blue .dataTableStyle:hover{
+        text-decoration:underline;
+        color: rgb(3, 65, 109)
+    }
+    
+ 
+
+/* 粉色主题表格样式 */
+.csr-theme-pink table.table-public th{
+    background:#f7e1da;
+  }
+.csr-theme-pink .querylist_style.border{
+    border-left:3px solid rgb(223, 86, 182);
+}
+.csr-theme-pink .query_style_backg.background{
+    background: rgb(223, 86, 182);
+}
+.csr-theme-pink .but_color{
+    background:rgb(223, 86, 182); 
+    border:1px solid rgb(223, 86, 182);
+    color: white;
+}
+.csr-theme-pink .dataTableStyle{
+    color:rgb(223, 86, 182);
+}
+.csr-theme-pink .dataTableStyle:hover{
+    text-decoration:underline;
+    color: rgb(102, 3, 72)
+}
+/* 个人中心页日历样式 */
+.el-calendar .el-calendar__title{
+    font-weight: 500;
+}
+.el-calendar .el-calendar-table .el-calendar-day{
+    padding:8px;
+    height: 38px;
+}
+.el-calendar .el-calendar__body {
+    padding: 0px 0px 0px;
+}
+.el-calendar .el-calendar__header{
+    padding: 5px;
+}
+.el-calendar .el-calendar-table thead th {
+    padding: 5px 0px;
+}
+.el-calendar .el-button{
+    padding: 5px;
+}
+/* 穿梭狂样式 */
+.el-transfer-panel__list{
+    text-align:left;
+}
+
+/* 联络中心中的菜单tab不显示添加按钮 */
+.customer-bussiness-list .el-tabs .el-tabs__new-tab{
+    display: none!important;
+}
+
+/* ---------------------文字客服------------------------------------------ */
+.online-content-container{
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+.online-content-container .left-part{
+    width: 400px;
+    min-width:400px;
+    height: 100%;
+    overflow: hidden;
+}
+.online-content-container .right-part{
+    height: 100%;
+    padding: 10px 0 0 10px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+}
+/* ----------------------------聊天窗口内容-------------------------------- */
+.chat-window-container{
+    background-color: antiquewhite;
+    margin: 10px 0px;
+    padding:5px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+.chat-window-container .chat-record-container{
+    /* height: 500px; */
+    flex: 1;
+    background-color: white;
+}
+.chat-window-container .chat-tools-container{
+    height:40px;
+    background-color: beige;
+    padding: 5px 0px;
+    display: flex;
+    flex-flow: row nowrap;
+  
+}
+
+.chat-window-container .chat-editor-container{
+    display: flex;
+    flex-flow: row nowrap;
+}
+.chat-window-container .chat-editor-container .left-side{
+    flex:1;
+
+}
+.chat-window-container .chat-editor-container .right-side{
+    width: 100px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-items: center;
+    justify-content: space-between;
+    padding: 5px 2px;
+}
+.chat-window-container .chat-editor-container .right-side .el-button+.el-button{
+   margin: 1px 0 0 0;
+}
+
+.chat-window-container .chat-editor-container .chat-tools-container .left-side{
+    flex: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.chat-window-container .chat-editor-container .chat-tools-container .right-side{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 2px 0 0 0;
+}
+.chat-window-container .chat-editor-container .chat-tools-container .tool-item{
+    margin: 0 2px;
+}
+.chat-window-container .chat-editor{
+    /* height:150px; */
+    background-color: whitesmoke;
+}
+
+
+
+.chat-record-item{
+    display: flex;
+    flex-grow: row nowrap;
+    position: relative;
+    margin: 3px 5px;
+    padding: 5px 0;
+}
+.chat-record-item .chat-record-item-inner{
+    max-width: 80%;
+    display: flex;
+    flex-flow: row nowrap;
+    
+}
+.chat-record-item.position-center{
+    justify-content: space-around;
+}
+.chat-record-item.chat-record-item.position-center .chat-record-item-inner{
+    max-width: 90%;
+    text-align: center;
+}
+.chat-record-item.position-left{
+    justify-content: flex-start;
+}
+.chat-record-item.position-right{
+    justify-content: flex-end;
+}
+
+.chat-record-item.position-left .img-avatar{
+    margin-right:5px;
+}
+.chat-record-item.chat-record-item.position-right .img-avatar{
+    margin-left: 5px;
+}
+.chat-record-item .chat-record-item-content{
+    text-align: left;
+    line-height: 20px;
+    font-size: 13px;
+    background-color:#f2f6fc;
+    border-radius: 3px;
+    padding: 5px 8px;
+}
+/*--------------------------------聊天框结束------------------------------------------*/
+
+/* -------------------------------交易菜单----------------------------------------- */
+.trans-base-view{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    padding:0 20px;
+    
+}
+.trans-base-view .content{
+    width:100%;
+}
+.trans-base-view .option-tip{
+    width:60%;
+    padding:50px 20px;
+    background-color: aliceblue;
+    border: 1px aliceblue solid;
+    border-radius: 20px;
+    margin-top:50px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+.trans-base-view .option-tip p{
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+}
+.trans-base-view .option-tip p.tip-content{
+    padding-top: 10px;
+    font-size: 24px;
+    font-weight: 500;
+}
+.trans-base-view .option-tip .icon{
+    width:100px;
+    height:100px;
+    font-size: 100px;
+    margin: 10px 0;
+}
+
+/* ------------------------------交易内容----------------------------- */
+
+.tip-success{
+    color:#67c23a;
+}
+.tip-error{
+    color: #f56c6c;
+}
+.tip-warning{
+    color: coral;
+} 
+
+/* ----------------------- 小绿点提示 ------------------------------------- */
+.option-result-tip-bar{
+    margin: auto;
+}
+.option-result-tip-bar ul{
+    list-style: none;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    justify-items: center;
+    background-color:cornsilk;
+    border-radius: 10px;
+    padding:5px 10px;
+
+}
+.option-result-tip-bar ul li{
+    margin: 1px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+}
+/* ------------------------  小绿点提示结束  ----------------------------------- */
+/*----------------------------------顶部菜单名称显示--------------------------------------- */
+.menu-top-bar{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.menu-top-bar .title{
+    font-size: 16px;
+}
+.menu-top-bar .menu-buttons{
+    flex:1;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+}
+/*----------------------------------层级列表目录展示样式--------------------------------------- */
+.data_list_url{
+    margin-top: 15px;
+    text-align: left;
+}
+.data_list_url span{
+    font-weight:700; 
+}
+.data_list_url span:hover{
+    color: #67c23a;
+    cursor: pointer;
+}
+/*----------------------------------字体样式--------------------------------------- */
+.text_left{
+    text-align: left;
+}
+.text_center{
+    text-align: center;
+}
+.text_right{
+    text-align: right;
+}
+/*----------------------------------查询条件form表单--------------------------------------- */
+.custquery .el-form-item{
+    margin-bottom: 10px;
+}
+

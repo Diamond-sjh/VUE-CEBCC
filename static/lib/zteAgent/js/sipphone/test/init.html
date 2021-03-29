@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="../webagent.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="md5.js"></script>
+<script type="text/javascript">
+
+function init()
+{
+        createBtn("初始化", function()
+        {
+            var WebAgent = top.window.WebAgent;
+			WebAgent.init(
+			{
+				onSucc : function(isReady)
+				{
+					alert("初始化成功!   " + ((isReady) ? "已经" : "未") + "登录！");
+					 onSucc();
+				},
+				onError : function(errCode, errMsg)
+				{
+					alert("初始化失败！" + errMsg);
+					        
+					createTestBtn(null, function()
+					{
+						var str="";
+						var cmd= WebAgent.Cmd;
+						for(var c in cmd)
+						{
+							str += "Cmd."+c+", "
+						}
+						info(str);
+					}, "Cmd")
+				},
+				lang : "en"
+			});
+        })
+		
+}
+
+    function noop()
+    {
+    }
+	
+	// 数组相减arr1 - arr2 
+    function arrSub(arr1,arr2)
+    {
+    	var item1,item2;
+    	while(arr2.length>0)
+    	{
+    		item1 = arr2.pop(); 
+    		for(var k=0; k<arr1.length; k++)
+    		{
+				item2 = arr1[k]
+    			if(item2 === item1)
+    			{
+    				arr1.splice(k,1);
+    			}
+    		}
+    	}
+    	return arr1;
+    }
+
+    function onSucc()
+    {
+        /*
+	    WebAgent.info__ = WebAgent.info;
+        WebAgent.error__ = WebAgent.error;
+        WebAgent.debug__ = WebAgent.debug;
+        WebAgent.trace__ = WebAgent.trace;
+		
+        WebAgent.info = info;
+        WebAgent.error = error;
+        WebAgent.debug = noop;
+        WebAgent.trace = info;
+        */
+        
+        info(WebAgent.getState().name)
+
+		print("<div>当前状态：<span id='curState'> null </span></div>")
+		print("================= Get方法 ===================<br>")
+		// 获取座席信息
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var oid = window.prompt("需要查询的座席id:");
+            if (!oid) return;
+            WebAgent.invoker("GetAgentInfo",[oid],function(agtInfo)
+			{
+				info(agtInfo);
+			})
+
+        }, "获取指定座席")
+		
+		// 数组减测试
+        createTestBtn(null, function()
+        {
+			alert(arrSub([1,2,3,4,5],[2,3,4]))
+        }, "arrsub")
+		
+		
+		// 外呼
+        createTestBtn(Cmd.MAKE_CALL, function()
+        {
+            var phoneNo = window.prompt("外呼\r\n外呼号码:");
+            if (!phoneNo) return;
+            WebAgent.CallUser(phoneNo);
+
+        }, "外呼")
+		
+		// 外呼
+        createTestBtn(null, function()
+        {
+			alert(decodeURIComponent("http://127.0.0.1/SendMessageToAgent?Unlock%26Req%261001%261000%2611-04-11%2017%3A37%3A42%269999-12-31%2023%3A59%3A59%5EUnlock%3A1000,1001,1&callback=_jqjsp&_1302514664030="))
+
+        }, "encode")
+		
+        //示忙/示闲
+        createSwitchBtn(Cmd.SHOW_BUSY, function()
+        {
+            WebAgent.setBusy();
+
+        }, function()
+        {
+            WebAgent.idle();
+        },"示忙","示闲")
+
+        //保持/取消保持
+        createSwitchBtn(Cmd.HOLD, function()
+        {
+            WebAgent.HoldCall();
+
+        }, function()
+        {
+            WebAgent.ReHoldCall();
+        }, "保持", "取消保持")
+        
+        //静音/取消静音
+        createSwitchBtn(Cmd.MUTE, function()
+        {
+            WebAgent.setMute(true);
+
+        }, function()
+        {
+            WebAgent.setMute(false);
+        }, "静音", "取消静音")
+        
+        
+        //整理/取消整理
+        createSwitchBtn(Cmd.MANUAL_ADJUST, function()
+        {
+            WebAgent.invoker("AgentEnterWrapUp",[]);
+
+        }, function()
+        {
+            WebAgent.idle();
+        }, "整理", "取消整理")
+        
+
+        //挂机
+        createTestBtn(Cmd.HANG_UP, function()
+        {
+            WebAgent.HangUP();
+
+        }, "挂机")
+        
+        //注销
+        createTestBtn(Cmd.LOGOUT, function()
+        {
+            WebAgent.logout();
+        }, "注销")
+
+        // 显示状态变化
+        WebAgent.regEvent("OnStateChanged", function(state)
+        {
+			document.getElementById("curState").innerHTML=state.name;
+            info("状态变化：" + state.name)
+        })
+
+        // Com2.MsgHandle消息处理
+        WebAgent.MsgHandle(function(msgType, data)
+        {
+            info("COM2 <<< MsgHandle("+[msgType, data]+")");
+        });
+        
+        // Com2.MsgInvoker消息处理
+        WebAgent.MsgInvoker(function(msgType, data)
+        {
+            info("COM2 <<< MsgInvoker("+[msgType, data]+")");
+        });
+		
+
+    }
+</script>
+</head>
+<body onload="init()">
+基本话务功能测试!
+<hr />
+<div id="btnDiv"></div>
+<div id="state"></div>
+<div id="msg"
+	style="width: 90%; height: 300px; overflow: auto; border: 1px solid #CCCCCC">
+</div>
+<input type="button" onclick="clearMsg()" value="clear" />
+<pre>
+</pre>
+</body>
+</html>
